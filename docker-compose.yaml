@@ -1,0 +1,103 @@
+networks:
+  mythings-db-network:
+    driver: bridge
+  mythings-ui-network:
+    driver: bridge
+  mythings-worker-network:
+    driver: bridge
+
+secrets:
+  mythings-db_pass:
+    external: true
+
+services:
+  mythings-api:
+    container_name: mythings-api
+    image: ""
+    restart: unless-stopped
+    secrets:
+      - mythings-db_pass
+    networks:
+      - mythings-db-network
+      - mythings-ui-network
+      - mythings-worker-network
+    ports:
+      - 3681:3681
+    volumes: []
+    environment:
+      DB_DRIVER: postgres
+      DB_HOST: mythings-db
+      DB_PORT: 5432
+      DB_USER: mythings-db
+      DB_PASSWORD_FILE: /run/secrets/mythings-db_pass
+      WORKER_URL: redis://mythings-redis:6379
+
+  mythings-ui:
+    container_name: mythings-ui
+    image: ""
+    restart: unless-stopped
+    secrets: []
+    networks:
+      - mythings-ui-network
+    ports:
+      - 7117:80
+    volumes: []
+    environment: {}
+
+  mythings-db:
+    container_name: mythings-db
+    image: postgres:$POSTGRES_VERSION
+    healthcheck:
+      test: pg_isready --user=$${POSTGRES_USER}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    secrets:
+      - mythings-db_pass
+    networks:
+      - mythings-db-network
+    volumes: []
+    environment:
+      POSTGRES_INITDB_WALDIR: /var/lib/postgresql/wal
+      POSTGRES_DB: mythingsdb
+      POSTGRES_USER: mythingsdb
+      POSTGRES_PASSWORD_FILE: /run/secrets/mythings-db_pass
+
+  mythings-redis:
+    container_name: mythings-redis
+    image: redis:$REDIS_VERSION
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mythings-worker-network
+    volumes: []
+
+  mythings-worker:
+    container_name: mythings-worker
+    image: ""
+    restart: unless-stopped
+    command: ["python", "-m", "arq", "mythings.worker.WorkerSettings"]
+    secrets:
+      - mythings-db_pass
+    networks:
+      - mythings-db-network
+      - mythings-worker-network
+    volumes: []
+    depends_on:
+      mythings-redis:
+        condition: service_healthy
+      mythings-db:
+        condition: service_healthy
+    environment:
+      DB_DRIVER: postgres
+      DB_HOST: mythings-db
+      DB_PORT: 5432
+      DB_USER: mythings-db
+      DB_PASSWORD_FILE: /run/secrets/mythings-db_pass
+      WORKER_URL: redis://mythings-redis:6379
+
