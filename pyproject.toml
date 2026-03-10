@@ -1,0 +1,204 @@
+[project]
+name = "mythings"
+version = "0.1.0"
+license = { file = "LICENSE" }
+requires-python = ">=3.13"
+dependencies = [
+    "aiomysql>=0.3.2",
+    "aiosqlite>=0.22.1",
+    "alembic>=1.18.4",
+    "arq>=0.27.0",
+    "asyncpg>=0.31.0",
+    "msgpack>=1.1.2",
+    "pillow>=12.1.1",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.13.1",
+    "python-slugify>=8.0.4",
+    "pyyaml>=6.0.3,<7.0.0",
+    "sqlalchemy[asyncio]>=2.0.47",
+    "strawberry-graphql[cli,fastapi]>=0.307.1",
+    "strawberry-sqlalchemy-mapper>=0.8.0",
+    "typing-extensions>=4.15.0,<5.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.38.2",
+    "factory-boy>=3.3.3",
+    "faker>=40.5.1",
+    "httpx>=0.28.1",
+    "hypothesis>=6.151.9,<7.0.0",
+    "msgpack-types>=0.7.0",
+    "nox>=2026.2.9,<2027.0.0",
+    "pyright>=1.1.408",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "pytest-cov>=7.0.0",
+    "pytest-factoryboy>=2.8.1",
+    "pytest-mock>=3.15.1,<4.0.0",
+    "ruff>=0.15.2",
+    "ruff-lsp>=0.0.62,<0.0.63",
+    "sphinx>=9.1.0",
+    "types-python-dateutil>=2.9.0.20260302",
+    "types-python-slugify>=8.0.2.20240310",
+    "types-pyyaml>=6.0.12.20250915",
+    "types-requests>=2.32.4.20260107",
+    "types-urllib3>=1.26.25.14",
+    "uv>=0.10.8",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+add-bounds = "major"
+
+[tool.uv.build-backend]
+module-root = ""
+
+[tool.ruff]
+
+line-length = 88
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = true
+line-ending = "auto"
+docstring-code-format = true
+preview = true
+
+[tool.ruff.lint]
+preview = true
+unfixable = [
+    # Ignore unused imports for now
+    "F401",
+]
+select = [
+    # Some of these might actually be covered by basedpyright
+    "FAST", # fastAPI
+    "ANN", # flake8 annotations
+    "ASYNC", # flake8 async
+    "S", # flake8 bandit
+    "BLE", # flake8 blind-except
+    "FBT", # flake8 boolean trap
+    "B", # flake8 bugbear
+    "A", # flake8 builtins (Catch shadowing)
+    "C4", # flake8 comprehensions
+    "DTZ", # flake8 datetimez
+    "EM", # flake8 errmsg
+    "FIX", # flake8 fixme (Pick up fix comments)
+    "ICN", # flake8 import-conventions
+    "LOG", # flake8 logging
+    "G", # flake8 logging-format
+    "INP", # flake8 pep420
+    "T20", # flake8 print
+    "PT", # flake8 pytest-style
+    "RET", # flake8 return
+    "SIM", # flake8 simplify
+    "TID", # flake8 tidy imports, for lazy imports
+    "TC", # flake8 type-checking
+    "ARG", # flake8 unused arguments
+    "PTH", # flake8 use-pathlib
+    "C90", # Mccabe Complexity
+    "NPY", # numpy (in case I use it for dealing with floats)
+    "PD", # pandas (in case I use it for dataframes)
+    "N", # pep8 naming
+    "PERF", # perflint to avoid perfomance issues
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "DOC", # pydoclint
+    "D", # pydocstyle
+    "F", # Pyflakes
+    "PL", # All of Pylint
+    "UP", # pyupgrade
+    "FURB", # pythonic ways
+    "RUF005", # consider `{expression}`
+    "RUF015", # prefer `next({iterable})`
+    "RUF019", # unncessary key checks
+    "RUF022", # `__all__` not sorted
+    "RUF032", # `Decimal()` called with float literal
+    "RUF039", # first arguement to `{call}` is not raw string
+    "RUF051", # Use `pop` instead of `key in dict` + `del dict[key]`
+    "RUF056" # avoid falsey fallback to `dict.get()` in boolean test positions
+    ]
+
+[tool.ruff.lint.flake8-type-checking]
+quote-annotations = true
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "pydantic_settings.BaseSettings",
+]
+runtime-evaluated-decorators = [
+    "pydantic.validate_call",
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = [
+    "pydantic.validator"
+]
+
+[tool.ruff.lint.pylint]
+max-nested-blocks = 3
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --tb=short --cov-fail-under=99.9 --cov=mythings --cov-report=xml --cov-report=html:cov_html"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",
+	"D",
+	"ANN",
+	"PLR2004",
+	"PLR6301",  # Don't want to hear about not using `self` in tests
+	"PLC2701",  # Don't want to hear about private imports in tests
+	"FBT"
+]
+
+[tool.basedpyright]
+venvPath = "."
+venv = ".venv"
+# set for basedpyright
+typeCheckingMode = "standard"
+analyzeUnannotatedFunctions = true
+deprecateTypingAliases = true
+reportRedeclaration = "information"
+reportDuplicateImport = "warning"
+reportUnreachable = "information"
+enableTypeIgnoreComments = false
+reportPropertyTypeMismatch = "information"
+reportImportCycles = "information"
+reportMissingTypeStubs = "information"
+reportUnknownParameterType = "hint"
+reportUnknownArgumentType = "hint"
+reportUnknownLambdaType = "hint"
+reportUnknownVariableType = "hint"
+reportUnknownMemberType = "hint"
+reportUnnecessaryCast = "information"
+reportUnnecessaryComparison = "information"
+reportUnnecessaryContains = "information"
+reportUnnecessaryIsInstance = "information"
+reportMissingParameterType = "hint"
+reportMissingTypeArgument = "hint"
+reportUnusedCallResult = "hint"
+reportMatchNotExhaustive = "warning"
+reportIgnoreCommentWithoutRule = "warning"
+#[tool.pyright]
+#reportShadowedImports = "warning" # basedpyright doesn't implement this, only pyright
+reportUnnecessaryTypeIgnoreComment = true
+
+[tool.pip-licenses]
+python = ".venv/bin/python"
+ignore-packages = ["docutils", "text-unidecode"]
+fail-on = "GPL"
+partial-match = true
