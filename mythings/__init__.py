@@ -1,0 +1,1 @@
+"""MyThings backend application."""
