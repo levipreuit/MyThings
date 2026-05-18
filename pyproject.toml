@@ -16,6 +16,7 @@ dependencies = [
     "python-slugify>=8.0.4",
     "pyyaml>=6.0.3,<7.0.0",
     "sqlalchemy[asyncio]>=2.0.47",
+    "sqlmodel>=0.0.37,<0.0.38",
     "strawberry-graphql[cli,fastapi]>=0.307.1",
     "strawberry-sqlalchemy-mapper>=0.8.0",
     "structlog>=25.5.0,<26.0.0",
@@ -29,15 +30,19 @@ dev = [
     "faker>=40.5.1",
     "httpx>=0.28.1",
     "hypothesis>=6.151.9,<7.0.0",
+    "mimesis>=19.1.0,<20.0.0",
     "msgpack-types>=0.7.0",
     "nox>=2026.2.9,<2027.0.0",
+    "polyfactory>=3.3.0,<4.0.0",
     "prek>=0.3.8,<0.4.0",
     "pyright>=1.1.408",
     "pytest>=9.0.2",
     "pytest-asyncio>=1.3.0",
+    "pytest-check>=2.8.0,<3.0.0",
     "pytest-cov>=7.0.0",
     "pytest-factoryboy>=2.8.1",
     "pytest-mock>=3.15.1,<4.0.0",
+    "responses>=0.26.0,<0.27.0",
     "rich>=14.3.3,<15.0.0",
     "ruff>=0.15.2",
     "ruff-lsp>=0.0.62,<0.0.63",
@@ -120,15 +125,31 @@ select = [
     "UP", # pyupgrade
     "FURB", # pythonic ways
     "RUF005", # consider `{expression}`
+    "RUF008", # no mutable defaults in dataclasses
+    "RUF009", # no function calls in dataclass defaults
+    "RUF012", # make mutable class defaults more explicit
     "RUF015", # prefer `next({iterable})`
     "RUF019", # unncessary key checks
+    "RUF021", # parenthesize chained ops for clarity
     "RUF022", # `__all__` not sorted
+    "RUF024", # catch mutable fromkeys value args.
+    "RUF029", # catch unused asyncs
     "RUF032", # `Decimal()` called with float literal
+    "RUF034", # catch useless if-else
     "RUF039", # first arguement to `{call}` is not raw string
+    "RUF043", # catch ambiguous `pytest.raises` patterns.
+    "RUF045", # catch implicit classvars in dataclass
     "RUF051", # Use `pop` instead of `key in dict` + `del dict[key]`
-    "RUF056" # avoid falsey fallback to `dict.get()` in boolean test positions
+    "RUF056", # avoid falsey fallback to `dict.get()` in boolean test positions
+    "RUF058", # don't starmap-zip
+    "RUF059", # properly throw away unused unpacked vars
+    "RUF061", # use context-manager of `pytest.raises`
+    "RUF200", # Check pyproject.toml for validity
     ]
-
+ignore = [
+    "TC006",
+    "TC007"
+    ]
 [tool.ruff.lint.flake8-type-checking]
 quote-annotations = true
 runtime-evaluated-base-classes = [
@@ -146,6 +167,7 @@ max-complexity = 10
 classmethod-decorators = [
     "pydantic.validator"
 ]
+extend-ignore-names = ["test_*"]
 
 [tool.ruff.lint.pylint]
 max-nested-blocks = 3
@@ -156,7 +178,16 @@ convention = "google"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "-v --tb=short --cov-fail-under=99.9 --cov=mythings --cov-report=xml --cov-report=html:cov_html"
+addopts = [
+    "-v",
+    "--tb=short",
+    "--cov-fail-under=99.9",
+    "--cov=mythings",
+    "--cov-report=xml",
+    "--cov-report=html:cov_html",
+    "--cov-branch",
+    "--cov-context=test"
+    ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = [
@@ -206,3 +237,15 @@ python = ".venv/bin/python"
 ignore-packages = ["docutils", "text-unidecode"]
 fail-on = "GPL"
 partial-match = true
+
+[tool.coverage.run]
+"branch" = true
+"source" = ["mythings"]
+"omit" = ["tests/*"]
+
+[tool.coverage.report]
+"precision" = 1
+"skip_empty" = true
+
+[tool.coverage.html]
+"show_contexts" = true
