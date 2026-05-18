@@ -1,0 +1,17 @@
+{
+	"Scaffold-python-tests": {
+		"scope": "python",
+		"include": ["**/tests/**/test_*.py"],
+		"prefix": "py_t",
+		"isFileTemplate": true,
+		"body": [
+			"\"\"\"${RELATIVE_FILEPATH/(^tests(?=\\\\/))|(\\\\/test_)|(\\\\.py$)|(\\\\/)/${1:+mythings}${2:+.}${4:+.}/g} tests.\"\"\"",
+			"",
+			"from __future__ import annotations",
+			"from typing import TYPE_CHECKING",
+			"from ${RELATIVE_FILEPATH/(^tests(?=\\\\/))|(\\\\/[^\\\\/]+$)|(\\\\/)/${1:+mythings}${3:+.}/g} import ${TM_FILENAME_BASE/^test_//}",
+			"",
+			"$0"
+		]
+	}
+}

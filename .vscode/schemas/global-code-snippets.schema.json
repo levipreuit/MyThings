@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "vscode-local://schemas/global-code-snippets",
+  "description": "Schema for VS Code global and workspace .code-snippets files.",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/definitions/snippetDefinition"
+  },
+  "definitions": {
+    "stringOrStringArray": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "globPatternOrArray": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "snippetDefinition": {
+      "type": "object",
+      "required": [
+        "body"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "type": "string"
+        },
+        "prefix": {
+          "$ref": "#/definitions/stringOrStringArray"
+        },
+        "body": {
+          "$ref": "#/definitions/stringOrStringArray"
+        },
+        "description": {
+          "$ref": "#/definitions/stringOrStringArray"
+        },
+        "isFileTemplate": {
+          "type": "boolean"
+        },
+        "include": {
+          "$ref": "#/definitions/globPatternOrArray"
+        },
+        "exclude": {
+          "$ref": "#/definitions/globPatternOrArray"
+        }
+      }
+    }
+  }
+}

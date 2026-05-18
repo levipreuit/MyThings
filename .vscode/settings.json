@@ -1,5 +1,34 @@
 {
-    "python.testing.pytestArgs": [],
+    "python.testing.pytestArgs": [
+        "-v",
+        "--tb=short",
+        "--cov-fail-under=99.9",
+        "--cov=mythings",
+        "--cov-report=xml",
+        "--cov-report=html:cov_html",
+        "--cov-branch",
+        "--cov-context=test",
+        "--log-cli-level=INFO"
+    ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
+    "basedpyright.analysis.diagnosticMode": "workspace",
+    "pythonIndent.trimLinesWithOnlyWhitespace": true,
+    "ruff.nativeServer": "on",
+    "inlineChat.fixDiagnostics": false,
+    "chat.disableAIFeatures": true,
+    "json.schemaDownload.enable": false,
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "*.code-snippets",
+                ".vscode/*.code-snippets"
+            ],
+            "url": "./.vscode/schemas/global-code-snippets.schema.json"
+        }
+    ],
+    "[snippets]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "editor.snippetSuggestions": "top",
 }
