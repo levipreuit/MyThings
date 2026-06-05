@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseModel
 from .backends import DBBackend
 from typing import TYPE_CHECKING
 
@@ -10,16 +10,9 @@ if TYPE_CHECKING:
     from .url_params import SqlAlchemyUrlParams
 
 
-_RdbmsSettingsConfigDict: SettingsConfigDict = SettingsConfigDict(
-    case_sensitive=False,
-    env_prefix="db_",
-)
-
-
-class CoreDBSettings(BaseSettings, ABC):
+class CoreDBSettings(BaseModel, ABC):
     """ABC for RDBMS settings."""
 
-    model_config = _RdbmsSettingsConfigDict
     backend: DBBackend
 
     @property

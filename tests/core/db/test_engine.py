@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from pytest_check import check
-from mythings.core.settings.db import engine
+from mythings.db import engine
 from mythings.core.settings.db.server import ServerDBSettings
 from typing import TYPE_CHECKING
 
@@ -16,7 +16,7 @@ def test_create_engine_returns_AsyncEngine() -> None:
 
 def test_create_engine_default_is_sqlite(mocker: MockerFixture) -> None:
     mock_engine = mocker.patch(
-        "mythings.core.settings.db.engine.create_async_engine",
+        "mythings.db.engine.create_async_engine",
         return_value="default_engine"
     )
 
@@ -33,7 +33,7 @@ def test_create_engine_default_is_sqlite(mocker: MockerFixture) -> None:
 
 def test_create_engine_builds_engine(mocker: MockerFixture) -> None:
     mock_engine = mocker.patch(
-        "mythings.core.settings.db.engine.create_async_engine",
+        "mythings.db.engine.create_async_engine",
         return_value="custom_engine"
     )
     test_settings = ServerDBSettings()
