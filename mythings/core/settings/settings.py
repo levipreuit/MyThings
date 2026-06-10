@@ -16,4 +16,6 @@ class Settings(BaseSettings):
         env_nested_max_split=1
     )
 
-    db: ServerDBSettings | SqliteSettings
+    db: SqliteSettings | ServerDBSettings = Field(
+        default_factory=SqliteSettings,
+        discriminator="backend")
