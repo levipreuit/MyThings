@@ -1,16 +1,18 @@
 """Sqlite implementation of `CoreDBSettings`."""
 
+from typing import Literal
 from .base import CoreDBSettings
 from .backends import DBBackend, DIALECT_MAP
 from .url_params import SqlAlchemyUrlParams
 from mythings.core.settings.utils import db_paths
 from pathlib import Path
-from pydantic import Field, field_validator
+from pydantic import ConfigDict, Field, field_validator
 
 
-class SqliteSettings(CoreDBSettings):
+class SqliteSettings(CoreDBSettings[Literal[DBBackend.SQLITE]]):
     """Settings specific to SQLite db setup."""
-    backend: DBBackend = Field(
+    model_config = ConfigDict(extra='forbid')
+    backend: Literal[DBBackend.SQLITE] = Field(
         default=DBBackend.SQLITE,
         frozen=True,
     )

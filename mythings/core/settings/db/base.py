@@ -10,10 +10,10 @@ if TYPE_CHECKING:
     from .url_params import SqlAlchemyUrlParams
 
 
-class CoreDBSettings(BaseModel, ABC):
+class CoreDBSettings[B: DBBackend](BaseModel, ABC):
     """ABC for RDBMS settings."""
 
-    backend: DBBackend
+    backend: B
 
     @property
     @abstractmethod

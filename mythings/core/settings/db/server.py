@@ -1,7 +1,8 @@
 """DB Server implementation of `CoreDBSettings`."""
 
 import secrets
-from pydantic import SecretStr, Field
+from typing import Literal
+from pydantic import ConfigDict, SecretStr, Field
 from .base import CoreDBSettings
 from .backends import (
     DBBackend,
@@ -11,7 +12,7 @@ from .backends import (
 from .url_params import SqlAlchemyUrlParams
 
 
-class ServerDBSettings(CoreDBSettings):
+class ServerDBSettings(CoreDBSettings[Literal[DBBackend.POSTGRESQL, DBBackend.MYSQL]]):
     """Database settings for non-sqlite databases.
 
     Args:
@@ -21,7 +22,8 @@ class ServerDBSettings(CoreDBSettings):
         port (int): reads from DB_PORT
         name (str): reads from DB_NAME
     """
-    backend: DBBackend = Field(
+    model_config = ConfigDict(extra='forbid')
+    backend: Literal[DBBackend.POSTGRESQL, DBBackend.MYSQL] = Field(
         default=DBBackend.POSTGRESQL
     )
     user: str = "MyThings"
