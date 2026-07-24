@@ -1,1 +1,0 @@
-"""MyThings test suite."""

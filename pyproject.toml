@@ -181,6 +181,7 @@ testpaths = ["tests"]
 addopts = [
     "-v",
     "--tb=short",
+    "--import-mode=importlib",
     "--cov-fail-under=99.9",
     "--cov=mythings",
     "--cov-report=xml",
@@ -228,8 +229,6 @@ reportMissingTypeArgument = "hint"
 reportUnusedCallResult = "hint"
 reportMatchNotExhaustive = "warning"
 reportIgnoreCommentWithoutRule = "warning"
-#[tool.pyright]
-#reportShadowedImports = "warning" # basedpyright doesn't implement this, only pyright
 reportUnnecessaryTypeIgnoreComment = true
 
 [tool.pip-licenses]

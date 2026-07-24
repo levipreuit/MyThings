@@ -19,3 +19,5 @@ class Settings(BaseSettings):
     db: SqliteSettings | ServerDBSettings = Field(
         default_factory=SqliteSettings,
         discriminator="backend")
+
+    currency: str = Field(default="USD")

@@ -2,6 +2,7 @@
     "python.testing.pytestArgs": [
         "-v",
         "--tb=short",
+        "--import-mode=importlib",
         "--cov-fail-under=99.9",
         "--cov=mythings",
         "--cov-report=xml",
@@ -32,4 +33,9 @@
     },
     "editor.snippetSuggestions": "top",
     "coverage-gutters.watchOnActivate": true,
+    "launch": {
+        
+        "configurations": [],
+        "compounds": []
+    },
 }
