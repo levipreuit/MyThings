@@ -198,7 +198,8 @@ addopts = [
 	"PLR2004",
 	"PLR6301",  # Don't want to hear about not using `self` in tests
 	"PLC2701",  # Don't want to hear about private imports in tests
-	"FBT"
+	"FBT",
+	"INP001"  # tests/ uses --import-mode=importlib, so no __init__.py needed
 ]
 
 [tool.basedpyright]
