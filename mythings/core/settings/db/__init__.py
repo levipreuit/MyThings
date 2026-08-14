@@ -9,5 +9,5 @@ __all__ = [
     "CoreDBSettings",
     "ServerDBSettings",
     "SqlAlchemyUrlKwargs",
-    "SqliteSettings"
+    "SqliteSettings",
 ]

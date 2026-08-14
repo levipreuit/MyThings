@@ -13,11 +13,11 @@ class Settings(BaseSettings):
         case_sensitive=False,
         env_prefix="MYTHINGS_",
         env_nested_delimiter="_",
-        env_nested_max_split=1
+        env_nested_max_split=1,
     )
 
     db: SqliteSettings | ServerDBSettings = Field(
-        default_factory=SqliteSettings,
-        discriminator="backend")
+        default_factory=SqliteSettings, discriminator="backend"
+    )
 
     currency: str = Field(default="USD")

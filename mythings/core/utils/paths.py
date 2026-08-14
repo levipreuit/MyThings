@@ -24,9 +24,10 @@ def describe_path_type(p: Path) -> str:
         "block device": p.is_block_device(),
         "character device": p.is_char_device(),
         "named pipe": p.is_fifo(),
-        "socket": p.is_socket()
+        "socket": p.is_socket(),
     }
     matched: Generator[str] = (
-        pth_type for pth_type, is_type in type_map.items() if is_type)
+        pth_type for pth_type, is_type in type_map.items() if is_type
+    )
     path_type_known: str | None = next(matched, None)
     return path_type_known or "unknown non-regular file"

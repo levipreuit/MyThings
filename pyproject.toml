@@ -192,6 +192,7 @@ addopts = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = [
+    "INP001",  # using importlib for pytest
     "S101",
 	"D",
 	"ANN",

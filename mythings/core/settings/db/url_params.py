@@ -15,6 +15,7 @@ class SqlAlchemyUrlKwargs(TypedDict, total=False):
         host (str | None): `SqlAlchemyUrlParams.host`
         port (int | None): `SqlAlchemyUrlParams.port`
     """
+
     drivername: str
     database: str
     username: str | None
@@ -35,6 +36,7 @@ class SqlAlchemyUrlParams:
         host (str | None): Host if connecting to a db
         port (str | None): Port if connecting to a db
     """
+
     drivername: str
     database: str
 
