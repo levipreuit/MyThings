@@ -11,7 +11,8 @@ from pydantic import ConfigDict, Field, field_validator
 
 class SqliteSettings(CoreDBSettings[Literal[DBBackend.SQLITE]]):
     """Settings specific to SQLite db setup."""
-    model_config = ConfigDict(extra='forbid')
+
+    model_config = ConfigDict(extra="forbid")
     backend: Literal[DBBackend.SQLITE] = Field(
         default=DBBackend.SQLITE,
         frozen=True,

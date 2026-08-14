@@ -9,8 +9,8 @@ from dataclasses import asdict
 
 def test_as_dict_returns_SqlAlchemyUrlKwargs() -> None:
     test_params = url_params.SqlAlchemyUrlParams(
-        drivername="postgresql",
-        database="MyThings")
+        drivername="postgresql", database="MyThings"
+    )
 
     returned_kwargs = test_params.as_dict()
 
@@ -25,7 +25,8 @@ def test_as_dict_returns_only_populated_SqlAlchemyUrlKwargs() -> None:
     mock_url_params_coverage = SqlAlchemyUrlParamsFactory.coverage()
     for mock_url_params in mock_url_params_coverage:
         populated_params = {
-            k: v for k, v in asdict(mock_url_params).items() if v}.keys()
+            k: v for k, v in asdict(mock_url_params).items() if v
+        }.keys()
 
         returned_kwargs: url_params.SqlAlchemyUrlKwargs = mock_url_params.as_dict()
         with check:

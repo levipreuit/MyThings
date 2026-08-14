@@ -16,8 +16,7 @@ def test_create_engine_returns_AsyncEngine() -> None:
 
 def test_create_engine_default_is_sqlite(mocker: MockerFixture) -> None:
     mock_engine = mocker.patch(
-        "mythings.db.engine.create_async_engine",
-        return_value="default_engine"
+        "mythings.db.engine.create_async_engine", return_value="default_engine"
     )
 
     result = engine.create_engine()
@@ -33,8 +32,7 @@ def test_create_engine_default_is_sqlite(mocker: MockerFixture) -> None:
 
 def test_create_engine_builds_engine(mocker: MockerFixture) -> None:
     mock_engine = mocker.patch(
-        "mythings.db.engine.create_async_engine",
-        return_value="custom_engine"
+        "mythings.db.engine.create_async_engine", return_value="custom_engine"
     )
     test_settings = ServerDBSettings()
 
@@ -43,7 +41,7 @@ def test_create_engine_builds_engine(mocker: MockerFixture) -> None:
     mock_engine.assert_called_once()
 
     # Tuple represents positional args, `_` are kwargs
-    (url_passed, ), _ = mock_engine.call_args
+    (url_passed,), _ = mock_engine.call_args
     with check:
         assert url_passed.drivername == "postgresql+asyncpg"
         assert url_passed.username == test_settings.user
