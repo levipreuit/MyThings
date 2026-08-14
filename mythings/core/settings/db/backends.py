@@ -14,11 +14,11 @@ class DBBackend(StrEnum):
 DIALECT_MAP: dict[DBBackend, str] = {
     DBBackend.POSTGRESQL: "postgresql+asyncpg",
     DBBackend.MYSQL: "mysql+aiomysql",
-    DBBackend.SQLITE: "sqlite+aiosqlite"
+    DBBackend.SQLITE: "sqlite+aiosqlite",
 }
 
 
 DEFAULT_PORTS: dict[DBBackend, int] = {
     DBBackend.POSTGRESQL: 5432,
-    DBBackend.MYSQL: 3306
+    DBBackend.MYSQL: 3306,
 }

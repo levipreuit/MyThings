@@ -22,15 +22,17 @@ class ServerDBSettings(CoreDBSettings[Literal[DBBackend.POSTGRESQL, DBBackend.MY
         port (int): reads from DB_PORT
         name (str): reads from DB_NAME
     """
-    model_config = ConfigDict(extra='forbid')
+
+    model_config = ConfigDict(extra="forbid")
     backend: Literal[DBBackend.POSTGRESQL, DBBackend.MYSQL] = Field(
         default=DBBackend.POSTGRESQL
     )
     user: str = "MyThings"
     password: SecretStr = Field(
-        default_factory=lambda: SecretStr(secrets.token_urlsafe(64)))
+        default_factory=lambda: SecretStr(secrets.token_urlsafe(64))
+    )
     host: str = "MyThingsDb"
-    port: int = Field(default_factory=lambda data: DEFAULT_PORTS[data['backend']])
+    port: int = Field(default_factory=lambda data: DEFAULT_PORTS[data["backend"]])
     name: str = "MyThings"
 
     @property
